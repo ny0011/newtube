@@ -1,22 +1,22 @@
 import express from "express";
-import logger from "morgan"
+import morgan from "morgan";
 
 const PORT = 5000;
+const logger = morgan("dev");
 
 const app = express();
 const handleHome = (req, res) => {
-    return res.send("Hello 🎈")
-}
+  return res.send("Hello 🎈");
+};
 const handleLogin = (req, res) => {
-    return res.send("Login here 🎇")
-}
+  return res.send("Login here 🎇");
+};
 
-
-app.use(logger("combined"))
-app.get("/", handleHome)
-app.get("/login", handleLogin)
+app.use(logger);
+app.get("/", handleHome);
+app.get("/login", handleLogin);
 
 const handleListening = () =>
-    console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀`);
+  console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀`);
 
 app.listen(PORT, handleListening);
