@@ -76,3 +76,8 @@
 - handle 함수들을 controller라고 하는데 router에서 controller를 분리하자
 - routers의 역할은 URL을 깔끔하게 보이게 분류하는 역할
 - **controller**의 역할은 URL 요청이 왔을 때 어떤 걸 실행하도록 하는 역할
+
+### Router의 내부 URL 계획 세우기
+
+- README.md 의 내용대로 어떤 기능과 이 기능에 해당하는 URL은 어떻게 이름 지을지 계획 세우기
+- 계획한대로 Router의 내부 route 구성

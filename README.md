@@ -9,20 +9,21 @@
 
 ```
 - Global router
-/ Homepage
-/join Join
-/login Login
-/search Search
+/         Homepage
+/join     Join
+/login    Login
+/search   Search
 
 - User router
-/users/edit Edit user
-/users/delete Delete user
+/users/:id        See user
+/users/logout     Log out
+/users/edit       Edit my profile
+/users/delete     Delete my profile
 
 - Video router
-/videos/watch Watch Video
-/videos/edit Edit Video
-/videos/delete Delete Video
+/videos/:id                 Watch Video
+/videos/:id/edit            Edit Video
+/videos/:id/delete          Edit Video
 
-/videos/comments Comment on a video
-/videos/comments/delete Delete a Comment of a video
+/videos/upload              Upload Video
 ```
