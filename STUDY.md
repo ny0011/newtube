@@ -46,3 +46,26 @@
   - /도메인/행동 이렇게 구조를 만들면 분류나 관리가 쉬워짐
 
 - router를 사용하면 어떤 기능을 하는 곳으로 이동하게 됨
+
+### Router 사용법
+
+- 선언 및 url 설정
+
+  - `/user`으로 들어오는 요청은 모두 userRouter로 이동
+
+    ```
+      const userRouter = express.Router();
+
+      app.use("/user", userRouter);
+    ```
+
+- router 내부 route 설정
+
+  - userRouter에서 `/edit`을 GET으로 받으면 handleEditUser을 실행
+  - 사용자가 `/user/edit` GET 요청을 했을 때 이 handleEditUser가 실행됨
+
+    ```
+      cconst handleEditUser = (req, res) => res.send("Edit User");
+      userRouter.get("/edit", handleEditUser);
+
+    ```
