@@ -69,3 +69,10 @@
       userRouter.get("/edit", handleEditUser);
 
     ```
+
+### Router 내부 분리
+
+- 각 Router 내부에서 내부 route의 행동까지(handle ...) 정의해두면 코드가 복잡해보임
+- handle 함수들을 controller라고 하는데 router에서 controller를 분리하자
+- routers의 역할은 URL을 깔끔하게 보이게 분류하는 역할
+- **controller**의 역할은 URL 요청이 왔을 때 어떤 걸 실행하도록 하는 역할
