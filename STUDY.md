@@ -115,3 +115,10 @@
     block head
     title Edit | Wetube
   ```
+
+- controller에서 pug로 변수 전달하기
+  - render의 매개변수로 pug 파일 이름 다음에 object 형태로 변수를 설정하면 됨
+  ```
+    export const trending = (req, res) => res.render("home", { pageTitle: "Home" });
+  ```
+  - pug에서는 `{pageTitle}` 이렇게 변수에 접근가능함
