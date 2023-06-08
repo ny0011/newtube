@@ -198,3 +198,21 @@
         videoRouter.get("/:id(\\d+)/edit", getEdit);
         videoRouter.post("/:id(\\d+)/edit", postEdit);
       ```
+- edit에서 POST 요청 보내기
+  - Router
+    - 같은 URL에 get, post 요청만 다르니 이걸 한 줄로 줄일 수 있음
+      ```
+        videoRouter.route("/:id(\\d+)/edit").get(getEdit).post(postEdit);
+      ```
+  - Controller
+    - POST 요청을 보낸 후 다른 곳으로 URL을 변경하지 않으면 계속 이 페이지를 루프 돌게 됨
+    - redirect()나 end()로 POST 요청을 끝내줘야 함
+      ```
+        const { id } = req.params;
+        return res.redirect(`/videos/${id}`);
+      ```
+    - POST 요청을 보냈을 때 form의 내용을 얻으려면 req.body로 확인할 수 있지만 설정을 추가로 하지 않으면 볼 수 없음
+      - express 내장 메소드를 사용해보자
+        ```
+          app.use(express.urlencoded({ extended: true }));
+        ```
