@@ -216,3 +216,11 @@
         ```
           app.use(express.urlencoded({ extended: true }));
         ```
+- video Upload GET, POST 요청 만들기
+  - Controller 생성
+  - upload.pug UI 생성
+    - 만약 다른 URL로 보낸다면 form의 action 속성을 사용해 URL을 변경해줘야 함
+      ```
+        form(method="POST", action="/videos/otherurl")
+      ```
+  - Router 등록
