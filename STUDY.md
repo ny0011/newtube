@@ -117,8 +117,23 @@
   ```
 
 - controller에서 pug로 변수 전달하기
+
   - render의 매개변수로 pug 파일 이름 다음에 object 형태로 변수를 설정하면 됨
+
   ```
     export const trending = (req, res) => res.render("home", { pageTitle: "Home" });
   ```
+
   - pug에서는 `{pageTitle}` 이렇게 변수에 접근가능함
+
+- pug에서 조건문 사용하기
+  - js처럼 if, else if, else를 사용함.
+  - tag에서 사용할 때는 `{}`를 붙이지만 조건문 내에서는 안써도 됨
+    ```
+      if fakeUser.loggedIn
+          li
+              a(href="/logout") Log out
+      else
+          li
+              a(href="/login") Login
+    ```
