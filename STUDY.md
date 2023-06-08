@@ -124,7 +124,7 @@
     export const trending = (req, res) => res.render("home", { pageTitle: "Home" });
   ```
 
-  - pug에서는 `{pageTitle}` 이렇게 변수에 접근가능함
+  - pug에서는 `#{pageTitle}` 이렇게 변수에 접근가능함
 
 - pug에서 조건문 사용하기
   - js처럼 if, else if, else를 사용함.
@@ -147,6 +147,7 @@
             li Sorry nothing found.
     ```
 - mixins
+
   - 재사용 가능한 block을 만들 때 사용함
   - ul, li 같은 태그들 반복하기 귀찮으니..
   - mixin 생성
@@ -167,3 +168,33 @@
 
       +video(potato)
     ```
+
+## DB
+
+- DB없이 controller에 임의로 videos 변수를 만들어서 이것저것 해보자
+- video watch 페이지와 edit 페이지를 바꿔보자
+  - Controller
+    - URL의 params를 보면 id 값을 알 수 있음
+    - id 값으로 원하는 video를 찾을 수 있음
+    - video 값을 pug 페이지로 보내줌
+      ```
+        export const getEdit = (req, res) => {
+        const { id } = req.params;
+        const video = videos[id - 1];
+        return res.render("edit", { pageTitle: `Editing ${video.title}`, video });
+      };
+      ```
+  - Views
+    - edit 화면에서 제목을 바꿔보자
+    - form 태그에서 save를 누를 때 POST로 요청을 보내기
+      ```
+        form(method="POST")
+          input(name="title", placeholder="Video Title", value=video.title, required)
+          input(value="Save",type="submit")
+      ```
+  - Router
+    - videoRouter에서 edit의 GET 요청과 POST 요청을 모두 받기
+      ```
+        videoRouter.get("/:id(\\d+)/edit", getEdit);
+        videoRouter.post("/:id(\\d+)/edit", postEdit);
+      ```
