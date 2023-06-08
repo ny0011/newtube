@@ -90,3 +90,28 @@
     videoRouter.get("/:id(\\d+)", see);
   ```
 - 앞에 있는 id는 파라미터의 이름이 됨
+
+## Template - pug
+
+- 날것의 html을 사용하기엔 귀찮음
+- pug 같은 간단한 template 을 사용하면 편함
+- express에서 템플릿 렌더링을 지원함 : https://expressjs.com/ko/guide/using-template-engines.html
+- 디렉토리 및 엔진 지정
+  ```
+    app.set("view engine", "pug");
+    app.set("views", process.cwd() + "/src/views");
+  ```
+- 다른 곳의 pug 파일을 가져오기
+  ```
+    include partials/footer.pug
+  ```
+- 내용은 다르고 UI가 같을 때 중복을 제거하기 위해 같은 형식은 base.pug 에 저장하고 다른 곳에서 그 형식을 불러올 때 extends로 가져옴
+
+  - block에 해당하는 부분은 extends로 상속받는 쪽의 내용으로 변경됨
+
+  ```
+    extends base.pug
+
+    block head
+    title Edit | Wetube
+  ```
