@@ -137,3 +137,33 @@
           li
               a(href="/login") Login
     ```
+- pug에서 반복문 사용하기
+  - for 대신 each in 을 사용함
+  - 반복문으로 돌릴 변수 안에 아무것도 없으면 else로 보여줄 내용 적을 수 있음
+    ```
+        each video in videos
+            li=video
+        else
+            li Sorry nothing found.
+    ```
+- mixins
+  - 재사용 가능한 block을 만들 때 사용함
+  - ul, li 같은 태그들 반복하기 귀찮으니..
+  - mixin 생성
+    ```
+      mixin video(info)
+      div
+          h4=info.title
+          ul
+              li #{info.rating}/5.
+              li #{info.comments} comments.
+              li Posted #{info.createdAt}.
+              li #{info.views} views.
+    ```
+  - mixin 사용
+
+    ```
+    include mixins/video
+
+      +video(potato)
+    ```
