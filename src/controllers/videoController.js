@@ -1,5 +1,13 @@
-export const home = (req, res) => {
-  return res.render("home", { pageTitle: "Home" });
+import Video from "../models/Video";
+
+export const home = async (req, res) => {
+  try {
+    const videos = await Video.find({});
+
+    return res.render("home", { pageTitle: "Home", videos: [] });
+  } catch (error) {
+    return res.send(`server-error: ${error}`);
+  }
 };
 export const see = (req, res) => {
   const { id } = req.params;

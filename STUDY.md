@@ -323,7 +323,44 @@
       import "./models/Video";
     ```
 - server에 import 하는 파일들이 많아져서 초기화 하는 파일을 따로 만들어주자
+
   - init.js : server와 db 실행
     - package.json 실행 명령어를 init.js로 바꾸기
   - server.js : 미들웨어와 라우팅 관련 설정
   - db.js : db 설정
+
+- 모델을 사용해보자
+
+  - DB에 접근하는 방법 : 쿼리(query) 사용
+    - https://mongoosejs.com/docs/queries.html
+  - mongoose의 쿼리는 두가지 방법으로 실행됨
+
+    - 1. `callback 함수`로 전달하면 mongoose는 쿼리를 비동기적으로 실행하고 결과값을 `callback`에게 전달함
+      - 근데 `Model.find()`는 callback을 받지 않는다는 에러 발생
+      - https://stackoverflow.com/questions/75586474/mongoose-stopped-accepting-callbacks-for-some-of-its-functions
+    - 2. 쿼리는 `.then()` 함수도 갖고 있는데 이건 promise로 실행해야 함
+    - 어쨌든 쿼리는 응답을 기다리는 형태임
+
+    - 1. 의 방식으로 쿼리 보내기
+
+      - `{}`는 filter라고 부름. 이렇게 비어있으면 모든 데이터를 찾는 것.
+      - 두번째는 callback 함수인데 처음 변수는 error, 두번째 변수는 결과값
+
+      ```
+        import Video from "../models/Video";
+
+        Video.find({}, (error, videos) => {});
+      ```
+
+    - 2. 의 방식으로 쿼리 보내기
+      - `async/await` 를 사용해서 값을 받음
+      - await에서 응답을 받을 때까지 다음 코드를 실행하지 않음
+      - 만약 await 코드에서 에러가 발생하면 다음 코드를 실행하지 않고 catch문을 실행함
+      ```
+        try {
+          const videos = await Video.find({});
+          return res.render("home", { pageTitle: "Home", videos: [] });
+        } catch (error) {
+          return res.send(`server-error: ${error}`);
+        }
+      ```
