@@ -364,3 +364,100 @@
           return res.send(`server-error: ${error}`);
         }
       ```
+
+- video를 DB 에 추가해보자!
+
+  - UI
+    - 사용자의 입력을 받는 Form 작성
+    - input에 name 속성 필수로 적어줘야 req.body에서 불러올 수 있다
+  - Controller
+
+    - video 모델에 맞는 데이터 형식을 만들어 줘야 함
+    - mongoDB에 저장될 수 있는 데이터를 document 라고 함
+      - model은 document의 subclass라서 model 객체를 만들면 document 객체를 만든 것과 같음
+    - document를 만들고 DB에 저장해보자
+
+      - document 생성 : Video 객체를 만들어준다
+        ```
+          const video = new Video({
+            title: title,
+            description: description,
+            hashtags: hashtags.split(",").map((word) => `#${word}`),
+            createdAt: Date.now(),
+            meta: {
+              views: 0,
+              rating: 0,
+            },
+          });
+        ```
+        - video를 출력하면 \_id라는게 추가됨
+          - mongoose가 이 \_id를 랜덤하게 만들어줌
+            ```
+            {
+              title: 'ff',
+              description: 'ee',
+              createdAt: 2023-06-09T08:25:32.714Z,
+              hashtags: [ '#gg', '#www', '#gge' ],
+              meta: { views: 0, rating: 0 },
+              _id: new ObjectId("6482e1fc21503576bbf5492e")
+            }
+            ```
+        - 만약 video에 원래 지정한 데이터 타입이 아니라 다른 타입으로 입력하면?
+          - `1` -> `"1"` 이렇게 타입 변환이 되는 건 해주지만 `lwkefjl` 같은 문자를 숫자로 변환할 수 없으면?
+          - mongoose는 그 데이터를 저장하지 않음
+          - 잘못된 정보를 보냈기 때문
+      - document를 DB에 저장
+        ```
+          await video.save();
+        ```
+      - document 생성과 DB 저장을 동시에
+        ```
+          await Video.create({
+              title,
+              description,
+              hashtags: hashtags.split(",").map((word) => `#${word}`),
+              createdAt: Date.now(),
+              meta: {
+                views: 0,
+                rating: 0,
+              },
+            });
+        ```
+      - mongosh에서 확인해보기
+
+        - mongoDB에는 document의 묶음을 collections로 인식함
+        - document의 이름이 Video면 mongoDB의 collection은 소문자 + 마지막 s 붙여서 videos로 이름이 붙여짐
+
+        ```
+          test> show dbs
+            admin    40.00 KiB
+            config  108.00 KiB
+            local    72.00 KiB
+            wetube   72.00 KiB
+
+          test> use wetube
+          switched to db wetube
+          wetube> show collections
+          videos
+          wetube> db.videos.find()
+          [
+            {
+              _id: ObjectId("6482e4539682b69d30d394af"),
+              title: '111',
+              description: 'lwiejfli',
+              createdAt: ISODate("2023-06-09T08:35:31.899Z"),
+              hashtags: [ '#aa', '#bb', '#cccc' ],
+              meta: { views: 0, rating: 0 },
+              __v: 0
+            },
+            {
+              _id: ObjectId("6482e4689682b69d30d394b2"),
+              title: '222',
+              description: 'wfjliwejf',
+              createdAt: ISODate("2023-06-09T08:35:52.479Z"),
+              hashtags: [ '#aa', '#bb', '#c' ],
+              meta: { views: 0, rating: 0 },
+              __v: 0
+            }
+          ]
+        ```
