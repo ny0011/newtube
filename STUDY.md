@@ -461,3 +461,29 @@
             }
           ]
         ```
+
+    - DB에 잘못된 값이 들어오지 않게 예외(exception) 처리와 유효성(validation) 처리를 해 줘야 함
+      - create 할 때 잘못된 값이 들어오면 예외처리로 try catch를 사용
+        ```
+          try {
+            await Video.create({
+              title,
+              description,
+              hashtags: hashtags.split(",").map((word) => `#${word}`),
+            });
+            return res.redirect("/");
+          } catch (error) {
+            return res.render("upload", {
+              pageTitle: "Upload Video",
+              errorMessage: error._message,
+            });
+          }
+        ```
+      - 기본값을 설정하거나 필수 입력값은 Video model에서 설정
+        ```
+          meta: {
+              views: { type: Number, default: 0, required: true },
+              rating: { type: Number, default: 0, required: true },
+            },
+          });
+        ```
