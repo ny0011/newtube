@@ -224,3 +224,47 @@
         form(method="POST", action="/videos/otherurl")
       ```
   - Router 등록
+
+### mongoDB
+
+- document-based DB
+  - 개발자는 object 단위로 생각함. mongoDB도 그렇다~
+  - JSON과 비슷하게 저장함!
+- 설치
+  - windows : https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows-unattended/
+- 설정 : https://dangphongvanthanh.wordpress.com/2017/06/12/add-mongos-bin-folder-to-the-path-environment-variable/
+- mongosh
+  - 설치 : https://www.mongodb.com/try/download/shell
+  - 설정 : 압축 파일 다운로드 -> 압축 풀기 -> bin/mongosh.exe 경로 복사해서 환경 변수 path에 추가
+  - 실행 : mongosh
+
+### mongoose
+
+- js와 mongoDB 간 상호작용을 도와주는 라이브러리
+- db 생성 및 연결
+
+  ```
+    import mongoose from "mongoose";
+
+    mongoose.connect("mongodb://127.0.0.1:27017/wetube");
+  ```
+
+- 서버가 실행될 때 db도 실행되려면 그냥 위의 파일을 import 하면 됨
+  - 서버 실행 후 DB가 실행됨. DB가 실행될 때 좀 느린 편
+  ```
+    import "./db";
+  ```
+- db와 연결하기위해 `connection`을 사용
+
+  - connection.on이나 once로 연결 관련 이벤트 리스너 등록
+  - 나중에 `connection`을 사용해 CRUD 작업 수행
+
+  ```
+    // 연결된 connection 객체 가져오기
+    const db = mongoose.connection;
+
+    const handleOpen = () => console.log("✅ Connected to DB");
+    db.on("error", (error) => console.log(error)); // 이 이벤트가 여러번 발생할 수 있음
+    db.once("open", handleOpen);
+
+  ```
