@@ -268,3 +268,62 @@
     db.once("open", handleOpen);
 
   ```
+
+### CRUD
+
+- mongoose로 CRUD를 해보자
+- 그 전에 데이터의 모습을 mongoose에게 알려주기 위해서 model을 만들어보자
+
+  - 데이터의 타입을 알려주기
+  - 데이터 타입을 정의하는 걸 스키마라고 함
+  - 스키마 작성
+
+    - `{ type: String }`와 `String`은 같은 의미. 옵션을 더 추가하지 않으면 타입만 적어도 됨
+
+    ```
+      import mongoose from "mongoose";
+
+      const videoSchema = new mongoose.Schema({
+        title: String,
+        description: String,
+        createdAt: Date,
+        hashtags: [{ type: String }],
+      });
+
+    ```
+
+  - 위의 스키마에 해당되는 video 값의 예시
+    ```
+      const video = {
+        title: "HEI"
+        description: "aaa"
+        createdAt: 1231234,
+        hashtag:[
+          "#hi",
+          "#mongo"
+        ]
+      }
+    ```
+
+- 모델 생성
+
+  - 모델의 이름을 생성하고 모델에 연결된 스키마 이름을 적기
+
+    - 보통 모델의 이름 첫글자를 대문자로 적는듯
+
+    ```
+      const Video = mongoose.model("Video", videoSchema);
+      export default Video;
+    ```
+
+- 모델을 사용하기 위해 가져오기
+  - server 파일에 db를 import 한 것처럼 video.js를 가져오면 됨
+  - 위에서 default Video라고 했으니 아래처럼만 적어도 Video 모델을 가져온게 됨
+    ```
+      import "./models/Video";
+    ```
+- server에 import 하는 파일들이 많아져서 초기화 하는 파일을 따로 만들어주자
+  - init.js : server와 db 실행
+    - package.json 실행 명령어를 init.js로 바꾸기
+  - server.js : 미들웨어와 라우팅 관련 설정
+  - db.js : db 설정
